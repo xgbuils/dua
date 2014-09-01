@@ -1,0 +1,19 @@
+{
+  "name": "relational",
+  "version": "0.0.0",
+  "description": "trying to build a ORM... ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "orm",
+    "sqlite3"
+  ],
+  "author": "Xavier Garcia Buils",
+  "license": "MIT",
+  "dependencies": {
+    "pluralize": "^1.0.0",
+    "sqlite3": "^2.2.7"
+  }
+}
