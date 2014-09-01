@@ -51,7 +51,7 @@ sqlite.escape_chars = [
         {open: '`', close: '`'},
         {open: '[', close: ']'},
     ]
-sqlite.replace_chars = /"|`/g
+sqlite.replace_chars = /"|`|\[|\]/g
 
 sqlite.autoIncrementString = ''
 
