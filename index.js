@@ -4,10 +4,9 @@ var sqlite3 = require('sqlite3')
 var util = require('util')
 //var common = require('./dialects/common')
 var dialect = require('./dialects/sqlite')
-var extend = require('./vendor/extend')
-var pluralize = require('pluralize')
-var Model = require('./Model')
 var QueryGenerator = require('./QueryGenerator')
+
+var Dua = require('./Dua')
 
 console.debug = function(myObject) {
     console.log(util.inspect(myObject, {showHidden: false, depth: null}));
@@ -36,22 +35,7 @@ var TYPES_TO_MYSQL = {
     'BIT': "TINYINT(1)", // mysql
 }
 
-function Dua(defaults) {
-    this.defaults = defaults 
-    this.models = {}
-}
 
-Dua.join = function() {
-    var dua = new Dua({})
-    var arrModels = [dua.models]
-    Array.prototype.forEach.call(arguments, function(e) {
-        arrModels.push(e.models);
-    })
-    //console.log(arrModels);
-    dua.models = extend.apply(null, arrModels)
-    //console.log(dua.models)
-    return dua;
-}
 
 
 
@@ -73,100 +57,28 @@ function getTypeOfColumn(column) {
         return column.type.toUpperCase();
 }
 
-function unionKeys() {
-    var n = arguments.length
-    var keysObject = {}
-    var keys = []
-    for (var i = 0; i < n; ++i) {
-        var source = arguments[i]
-        for(var key in source) {
-            if(!keysObject[key]) {
-                keysObject[key] = true
-                keys.push(key)
-            }
-        }
-    }
+var dua = new Dua(dialect);
 
-    return keys
-}
-
-Dua.prototype.define = function(name, modelDefinition) {
-    var model = this.models[name] = new Model()
-    model.tableName = dialect.escapeIdentifier(pluralize.plural(name).toLowerCase())
-
-    var columns = model.columns = {}
-    var primaryKey = model.primaryKey = {}
-    
-    var column;
-
-    var columnNames = unionKeys(this.defaults, modelDefinition)
-    
-    columnNames.forEach(function(name) {
-        var defaults         = this.defaults[name]
-        var columnDefinition = modelDefinition[name]
-        column = columns[name] = {
-            columnName: dialect.escapeIdentifier(name)
-        }
-
-        // assign type
-        column.type = dialect.getTypeOfColumn(columnDefinition)
-        if(column.type.name === undefined)        
-            column.type = dialect.getTypeOfColumn(defaults)
-        if(column.type.name === undefined)        
-            column.type = dialect.default_type
-        
-        if (typeof defaults !== 'object') {
-            defaults = {}
-        }
-        if (typeof columnDefinition !== 'object') {
-            columnDefinition = {}
-        }
-
-        var pk = columnDefinition.primaryKey
-        if (pk === undefined) pk = defaults.primaryKey
-        if(pk === true) {
-            if(!(name in primaryKey)) {
-                primaryKey[name] = pk
-                ++model.countPrimaryKeys
-            }
-        } else {
-            if(name in primaryKey) {
-                delete primaryKey[name]
-                --model.countPrimaryKeys
-            }
-            
-        }
-
-        var autoIncrement = columnDefinition.autoIncrement || defaults.autoIncrement
-        if (autoIncrement) {
-            column.autoIncrement = autoIncrement
-        }
-    }, this)
-
-    return model;
-}
-
-var dua = new Dua({
+var models = dua.modelset({
     id: {
         type: 'INTEGER',
         primaryKey: true,
         autoIncrement: true,
     }
-});
+})
 
-dua.define('User', {
+models.define('User', {
     id: {
       //  primaryKey: false
     },
     name: {type:'GGF'}
 })
 
-var s = Dua.join(dua)
-
-console.debug(s.models)
+console.debug(dua.models)
 
 var qg = new QueryGenerator(dialect)
-var query = qg.create('users', s.models['User'])
+//console.log('dua.models[\'User\']' instanceof Model)
+var query = qg.create('users', dua.models['User'])
 var db = new sqlite3.Database(':memory:')
 
 console.log(query)

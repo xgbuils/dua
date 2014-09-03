@@ -19,10 +19,10 @@ var array = [
 
 module.exports = {
     'sqlite#escapeIdentifier': function(test){
-    	array.forEach(function (objTest) {
-    		var result = Dialect.prototype.escapeIdentifier.apply(sqlite, objTest.input)
+        array.forEach(function (objTest) {
+            var result = Dialect.prototype.escapeIdentifier.apply(sqlite, objTest.input)
             test.strictEqual(result, objTest.output)
-    	})
-    	test.done()
+        })
+        test.done()
     }
 }
