@@ -28,7 +28,7 @@ Dialect.prototype.getTypeOfColumn = function (column) {
     var typeOfColumn = typeof column
     if (typeOfColumn === 'string') {
         typeString = column
-    } else if(typeOfColumn !== 'object') {
+    } else if(typeOfColumn !== 'object' || column === null) {
         typeString = ''
     } else if (!column.type) {
         typeString = ''
