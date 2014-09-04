@@ -10,38 +10,38 @@ sqlite.name = 'sqlite'
 
 sqlite.types = {
 	// numeric
-    'INTEGER': 'INTEGER', //(p)
-    'INT': 'INT', //(p)
-    'SMALLINT': 'SMALLINT',
-    'MEDIUMINT': 'MEDIUMINT',
-    'BIGINT': 'BIGINT',
-    'DECIMAL': 'DECIMAL', //(p,s)
-    'DEC': 'DEC',
-    'FIXED': 'FIXED',
-    'NUMERIC': 'NUMERIC', //(p,s)
-    'FLOAT': 'FLOAT', //(p)
-    'REAL': 'REAL',
-    'DOUBLE PRECISION': 'DOUBLE PRECISION',
-    'DOUBLE': 'DOUBLE',
-    'BIT': 'BIT',
-    'BOOLEAN': 'BOOLEAN',
+    'INTEGER':           {name: 'INTEGER',           range: [0,1]}, //(p)
+    'INT':               {name: 'INT',               range: [0,1]}, //(p)
+    'SMALLINT':          {name: 'SMALLINT'},
+    'MEDIUMINT':         {name: 'MEDIUMINT'},
+    'BIGINT':            {name: 'BIGINT'},
+    'DECIMAL':           {name: 'DECIMAL',           range: [0,2]}, //(p,s)
+    'DEC':               {name: 'DEC',               range: [0,2]},
+    'FIXED':             {name: 'FIXED'},
+    'NUMERIC':           {name: 'NUMERIC',           range: [0,2]}, //(p,s)
+    'FLOAT':             {name: 'FLOAT',             range: [0,1]}, //(p)
+    'REAL':              {name: 'REAL'},
+    'DOUBLE PRECISION':  {name: 'DOUBLE PRECISION'},
+    'DOUBLE':            {name: 'DOUBLE'},
+    'BIT':               {name: 'BIT'},
+    'BOOLEAN':           {name: 'BOOLEAN'},
     // text
-    'CHARACTER': 'CHARACTER', //(n)
-    'VARCHAR': 'VARCHAR', //(n)
-    'CHARACTER VARYING': 'CHARACTER VARYING', // (n)
-    'BINARY': 'BINARY', //(n)
-    'VARBINARY': 'VARBINARY', //(n) 
-    'BINARY VARYING': 'BINARY VARYING', //(n)
+    'CHARACTER':         {name: 'CHARACTER',         range: [0,1]}, //(n)
+    'VARCHAR':           {name: 'VARCHAR',           range: [0,1]}, //(n)
+    'CHARACTER VARYING': {name: 'CHARACTER VARYING', range: [0,1]}, //(n)
+    'BINARY':            {name: 'BINARY',            range: [0,1]}, //(n)
+    'VARBINARY':         {name: 'VARBINARY',         range: [0,1]}, //(n) 
+    'BINARY VARYING':    {name: 'BINARY VARYING',    range: [0,1]}, //(n)
     // date
-    'DATE': 'DATE',
-    'TIME': 'TIME',
-    'TIMESTAMP': 'TIMESTAMP',
-    'INTERVAL': 'INTERVAL',
+    'DATE':              {name: 'DATE'},
+    'TIME':              {name: 'TIME'},
+    'TIMESTAMP':         {name: 'TIMESTAMP'},
+    'INTERVAL':          {name: 'INTERVAL'},
 
     // other
-    'MULTISET': 'MULTISET',
-    'XML': 'XML',
-    'BLOB': 'BLOB',
+    'MULTISET':          {name: 'MULTISET'},
+    'XML':               {name: 'XML'},
+    'BLOB':              {name: 'BLOB'},
 }
 
 sqlite.default_type = 'NUMERIC'

@@ -44,12 +44,24 @@ Dialect.prototype.getTypeOfColumn = function (column) {
 
         var arr = typeString.match(/^([A-Z\s]+)\s*(?:\(([0-9,\s]+)\))?$/i)
         //console.log(typeString)
-        if(arr[1]) {
-        	type.name = this.types[arr[1]]
+        var t
+        if (arr[1] && (t = this.types[arr[1]])) {
+        	type.name = this.types[arr[1]].name
+
+            if (t.range === undefined) t.range = [0,0]
+
+            arr[2] = arr[2] ? arr[2].split(',').map(function(e) { return parseInt(e) }) : []
+            if (t.range[0] <= arr[2].length && arr[2].length <= t.range[1]) {
+                type.params = arr[2]
+            } else {
+                type.params = undefined
+            }
+        } else {
+            type.name = this.default_type
+            type.params = []
         }
-        type.params = arr[2] ? arr[2].split(',').map(function(e) { return parseInt(e) }) : []
     } else {
-    	type.params = []
+        type = undefined
     }
 
     return type;
