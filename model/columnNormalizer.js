@@ -1,20 +1,7 @@
 'use strict'
 
-function Dialect() {}
-
-Dialect.prototype.escapeIdentifier = function(name) {
-    var arr = this.escape_chars
-    for (var i in arr) {
-        var e = arr[i]
-        if ((name.indexOf(e.open) === -1) && (e.open === e.close || name.indexOf(e.close) === -1)) {
-            return e.open + name + e.close
-        }
-    }
-    
-    return arr[0].open + name.replace(this.replace_chars, '') + arr[0].close
-}
-
-Dialect.prototype.columnNormalizer = function (column) {
+// return object with column field normalized and type field with a previous type
+function columnNormalizer (column, dialect) {
 
     var typeString
     var typeOfColumn = typeof column
@@ -26,27 +13,19 @@ Dialect.prototype.columnNormalizer = function (column) {
             }
         }
     } else if (typeOfColumn !== 'object' || column === null) {
-        column = {
-            type: {
-                name: '',
-            }
-        }
+        column = {}
     } else {
-        if (column.type && typeof column.type === 'string') {
+        if (typeof column.type === 'string') {
             typeString = column.type
             column.type = {
                 name: typeString
             }
         } else {
-            column.type = {
-                name: '',
-            }
+            delete column.type
         }
-    }
+    } 
 
-    
-
-    if (!column.type.name) {
+    if (!column.type) {
         return column
     }
     var type = column.type
@@ -59,8 +38,8 @@ Dialect.prototype.columnNormalizer = function (column) {
     }
 
     var t
-    if (arr[1] && (t = this.types[arr[1]])) {
-        type.name = this.types[arr[1]].name
+    if (arr[1] && (t = dialect.types[arr[1]])) {
+        type.name = dialect.types[arr[1]].name
 
         if (t.range === undefined) t.range = [0,0]
 
@@ -77,4 +56,4 @@ Dialect.prototype.columnNormalizer = function (column) {
     return column
 }
 
-module.exports = Dialect
+module.exports = columnNormalizer

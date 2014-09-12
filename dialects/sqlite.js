@@ -47,7 +47,25 @@ sqlite.types = {
     'BLOB':              {name: 'BLOB'},
 }
 
-sqlite.default_type = 'NUMERIC'
+sqlite.type_affinity = function(typeString) {
+    if (typeof typeString !== 'string') {
+        return 'NUMERIC'
+    } else if (typeString.indexOf('INT') !== -1) {
+        return 'INTEGER'
+    } else if (['CHAR', 'CLOB', 'TEXT'].some(function(e) {
+        return typeString.indexOf(e) !== -1
+    })) {
+        return 'TEXT'
+    } else if(typeString.indexOf('BLOB') !== -1 || typeString === '') {
+        return 'NONE'
+    } else if (['REAL', 'FLOA', 'DOUB'].some(function(e) {
+        return typeString.indexOf(e) !== -1
+    })) {
+        return 'REAL'
+    } else {
+        return 'NUMERIC'
+    }
+}
 
 sqlite.escape_chars = [
         {open: '"', close: '"'},
@@ -57,6 +75,30 @@ sqlite.escape_chars = [
 sqlite.replace_chars = /"|`|\[|\]/g
 
 sqlite.autoIncrementString = ''
+
+sqlite.validateType = function(type) {
+    if(!type.params) {
+        if (typeof typeString !== 'string') {
+            type.name = 'NUMERIC'
+        } else if (typeString.indexOf('INT') !== -1) {
+            type.name = 'INTEGER'
+        } else if (['CHAR', 'CLOB', 'TEXT'].some(function(e) {
+            return typeString.indexOf(e) !== -1
+        })) {
+            type.name = 'TEXT'
+        } else if(typeString.indexOf('BLOB') !== -1 || typeString === '') {
+            type.name = 'NONE'
+        } else if (['REAL', 'FLOA', 'DOUB'].some(function(e) {
+            return typeString.indexOf(e) !== -1
+        })) {
+            type.name = 'REAL'
+        } else {
+            type.name = 'NUMERIC'
+        }
+        type.params = []
+    }
+    return type
+}
 
 
   

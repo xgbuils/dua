@@ -1,4 +1,4 @@
-var ModelSet = require('../../model/ModelSet')
+var ModelCollection = require('../../model/ModelCollection')
 var sqlite = require('../../dialects/sqlite')
 
 var extend = require('../../vendor/extend')
@@ -36,27 +36,25 @@ var array = [
             id: {}
         }
     },
-    /*{
+    {
         input: [{
             id: {
-                type: 'varCHar (2 ,1)'
+                type: '  varCHar (2 ,1)'
             }
         }, undefined, sqlite],
         output: {
-            id: {}
+            id: {
+                type: {name: 'VARCHAR (2 ,1)'}
+            }
         }
-    },*/
+    },
 ]
-/*
-var objTest = array[2]
-var result = new ModelSet(objTest.input[0], objTest.input[1], objTest.input[2])
-console.log(result.defaults)*/
 
 
 module.exports = {
-    'ModelSet#constructor': function(test){
+    'ModelCollection#constructor': function(test){
         array.forEach(function (objTest) {
-            var result = new ModelSet(objTest.input[0], objTest.input[1], objTest.input[2])
+            var result = new ModelCollection(objTest.input[0], objTest.input[1], objTest.input[2])
             test.deepEqual(result.defaults, objTest.output)
         })
         test.done()
