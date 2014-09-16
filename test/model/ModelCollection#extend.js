@@ -85,7 +85,68 @@ var array = [
             updateAt: {type: {name: 'DATE', params: []}}
         }
     },
+    {
+        input: [{ 
+            id: { 
+                type: 'INTEGER',
+                autoIncrement: true,
+                primaryKey: true 
+            },
+            createAt: { type: 'INTEGER' }
+        },
+        { 
+            createAt: { 
+                type: 'DATE' 
+            },
+            updateAt: { 
+                type: 'DATE' 
+            }
+        }],
+        output: {
+            id: { 
+                type: {name: 'INTEGER', params: []},
+                autoIncrement: true,
+                primaryKey: true 
+            },
+            createAt: { 
+                type: {name: 'DATE', params: []}
+            },
+            updateAt: { 
+                type: {name: 'DATE', params: []}
+            }
+        }
+    },
+    {
+        input: [{
+            id: {
+                type: '  integer',
+                autoIncrement: true,
+            }
+        },{
+            id: {
+                type: '  VARCHAR (34)',
+                primaryKey: true,
+            },
+        },{
+            updateAt: 'fdsfjh',
+            createAt: 'integer',
+        }],
+        output: {
+            id: {
+                type: {name:'VARCHAR', params: [34]},
+                autoIncrement: true,
+                primaryKey: true
+            },
+            updateAt: {
+                type: {name: 'FDSFJH'}
+            },
+            createAt: {
+                type: {name: 'INTEGER', params: []}
+            }
+        }
+    }
 ]
+
 
 module.exports = {
     'ModelCollection#extend': function(test){

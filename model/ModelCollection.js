@@ -16,9 +16,8 @@ ModelCollection.prototype.define = function (name, modelDefinition) {
 }
 
 ModelCollection.prototype.extend = function (defaults) {
-	var models = new ModelCollection(undefined, this.models, this.dialect)
-    var newDefaults = modelNormalizer(defaults, this.dialect)
-    models.defaults = modelExtend(this.defaults, newDefaults)
+	var models = new ModelCollection(defaults, this.models, this.dialect)
+    models.defaults = modelExtend(this.defaults, models.defaults)
 
     return models
 }

@@ -1,5 +1,5 @@
-function Model() {
-    this.countPrimaryKeys = 0
+function Model() { 
+    this.primaryKey = []
 }
 
 Model.prototype.getRowid = function() {

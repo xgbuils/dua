@@ -56,6 +56,7 @@ var array = [
     {input: [{type: false}],                output: {}},
     {input: [{type: undefined}],            output: {}},
     {input: [{type: null}],                 output: {}},
+    {input: [{type: '  VARCHAR (34)'}],     output: {type: {name: 'VARCHAR', params: [34]}}},
 ]
 
 module.exports = {

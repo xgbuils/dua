@@ -77,7 +77,13 @@ sqlite.replace_chars = /"|`|\[|\]/g
 sqlite.autoIncrementString = ''
 
 sqlite.validateType = function(type) {
-    if(!type.params) {
+    if(!type) {
+        type = {
+            name: 'NUMERIC',
+            params: []
+        }
+    } else if (!type.params) {
+        var typeString = type.name
         if (typeof typeString !== 'string') {
             type.name = 'NUMERIC'
         } else if (typeString.indexOf('INT') !== -1) {
